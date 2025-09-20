@@ -16,13 +16,15 @@ section .text
 	global ft_strlen
 
 %ifdef TARGET64
+[BITS 64]
+
 ft_strlen:
-	PUSH 		RBP
-	MOV 		RBP, RSP
+	PUSH		RBP
+	MOV			RBP, RSP
 	MOV			RBX, RDI
 	MOV			RAX, 0X0
 	CMP			RBX, 0
-	JE			.END_STRLEN
+	JE 			.END_STRLEN
 
 .LOOP_STRLEN:
 	CMP	BYTE	[RBX], 0X0
@@ -36,6 +38,8 @@ ft_strlen:
 	POP			RBP
 	RET
 %else
+[BITS 32]
+
 ft_strlen:
 	PUSH 		EBP
 	MOV 		EBP, ESP

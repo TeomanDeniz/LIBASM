@@ -16,6 +16,8 @@ section .text
 	global ft_strcmp
 
 %ifdef TARGET64
+[BITS 64]
+
 ft_strcmp:
 	PUSH 		RBP
 	MOV 		RBP, RSP
@@ -56,6 +58,8 @@ ft_strcmp:
 	POP			RBP
 	RET
 %else
+[BITS 32]
+
 ft_strcmp:
 	PUSH 		EBP
 	MOV 		EBP, ESP

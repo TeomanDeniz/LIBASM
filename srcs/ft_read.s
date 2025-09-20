@@ -17,9 +17,9 @@ section .text
 	extern __errno_location
 
 %ifdef TARGET64
+[BITS 64]
+
 ft_read:
-	PUSH 		RBP
-	MOV 		RBP, RSP
 	MOV			RAX, 0
 	SYSCALL
 	CMP			RAX, 0
@@ -36,14 +36,11 @@ ft_read:
 	JMP 		.END_OF_READ
 
 .END_OF_READ:
-	MOV			RSP, RBP
-	POP			RBP
 	RET
 %else
 [BITS 32]
+
 ft_read:
-	PUSH 		EBP
-	MOV 		EBP, ESP
 	MOV			EAX, 0
 	SYSCALL
 	CMP			EAX, 0
@@ -60,7 +57,5 @@ ft_read:
 	JMP 		.END_OF_READ
 
 .END_OF_READ:
-	MOV			ESP, EBP
-	POP			EBP
 	RET
 %endif ; TARGET64

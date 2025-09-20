@@ -17,6 +17,8 @@ section .text
 	extern __errno_location
 
 %ifdef TARGET64
+[BITS 64]
+
 ft_write:
 	PUSH 		RBP
 	MOV 		RBP, RSP
@@ -33,13 +35,15 @@ ft_write:
 	NEG			RBX
 	MOV			[RAX], RBX
 	MOV			RAX, -1
-	JMP 		.end_write
+	JMP 		.END_WRITE
 
 .END_WRITE:
 	MOV			RSP, RBP
 	POP			RBP
 	RET
 %else
+[BITS 32]
+
 ft_write:
 	PUSH 		EBP
 	MOV 		EBP, ESP

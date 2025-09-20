@@ -19,9 +19,9 @@ section .text
 	extern malloc
 
 %ifdef TARGET64
+[BITS 64]
+
 ft_strdup:
-	PUSH 		RBP
-	MOV 		RBP, RSP
 	CALL		ft_strlen
 	INC			RAX
 	PUSH		RDI
@@ -40,13 +40,11 @@ ft_strdup:
 	JMP			.END_STRDUP
 
 .END_STRDUP:
-	MOV			RSP, RBP
-	POP			RBP
 	RET
 %else
+[BITS 32]
+
 ft_strdup:
-	PUSH 		EBP
-	MOV 		EBP, ESP
 	CALL		ft_strlen
 	INC			EAX
 	PUSH		EDI
@@ -65,7 +63,5 @@ ft_strdup:
 	JMP			.END_STRDUP
 
 .END_STRDUP:
-	MOV			ESP, EBP
-	POP			EBP
 	RET
 %endif ; TARGET64
