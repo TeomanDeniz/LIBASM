@@ -39,10 +39,8 @@ ft_strcpy:
 [BITS 32]
 
 ft_strcpy:
-	PUSH 		EBP
-	MOV 		EBP, ESP
-	MOV			EBX, EDI
-	MOV			ECX, ESI
+	MOV			EBX, [ESP + 4]
+	MOV			ECX, [ESP + 8]
 	MOV			EAX, EBX
 
 .LOOP_STRCPY:
@@ -52,7 +50,5 @@ ft_strcpy:
 	INC			ECX
 	CMP			BYTE DL, 0X0
 	JNE			.LOOP_STRCPY
-	MOV			ESP, EBP
-	POP			EBP
 	RET
 %endif ; TARGET64

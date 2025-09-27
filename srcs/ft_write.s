@@ -20,50 +20,39 @@ section .text
 [BITS 64]
 
 ft_write:
-	PUSH 		RBP
-	MOV 		RBP, RSP
 	MOV			RAX, 1
 	SYSCALL
 	CMP			RAX, 0
-	JL			.ERROR_WRITE
-	JMP			.END_WRITE
+	JL			.ERROR_READ
+	RET
 
-.ERROR_WRITE:
+.ERROR_READ:
 	PUSH		RAX
 	CALL		__errno_location WRT ..plt
 	POP			RBX
 	NEG			RBX
 	MOV			[RAX], RBX
 	MOV			RAX, -1
-	JMP 		.END_WRITE
-
-.END_WRITE:
-	MOV			RSP, RBP
-	POP			RBP
 	RET
 %else
 [BITS 32]
 
 ft_write:
-	PUSH 		EBP
-	MOV 		EBP, ESP
 	MOV			EAX, 1
-	SYSCALL
+	MOV			EBX, [ESP + 4]
+	MOV			ECX, [ESP + 8]
+	MOV			EDX, [ESP + 12]
+	INT			0X80
 	CMP			EAX, 0
-	JL			.ERROR_WRITE
-	JMP			.END_WRITE
+	JL			.ERROR_READ
+	RET
 
-.ERROR_WRITE:
+.ERROR_READ:
 	PUSH		EAX
 	CALL		__errno_location WRT ..plt
 	POP			EBX
 	NEG			EBX
 	MOV			[EAX], EBX
 	MOV			EAX, -1
-	JMP 		.end_write
-
-.END_WRITE:
-	MOV			ESP, EBP
-	POP			EBP
 	RET
 %endif ; TARGET64

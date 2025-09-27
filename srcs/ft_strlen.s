@@ -43,7 +43,7 @@ ft_strlen:
 ft_strlen:
 	PUSH 		EBP
 	MOV 		EBP, ESP
-	MOV			EBX, EDI
+	MOV			EBX, [EBP + 8]
 	MOV			EAX, 0X0
 	CMP			EBX, 0
 	JE			.END_STRLEN

@@ -61,10 +61,8 @@ ft_strcmp:
 [BITS 32]
 
 ft_strcmp:
-	PUSH 		EBP
-	MOV 		EBP, ESP
-	MOV			EBX, EDI
-	MOV			ECX, ESI
+	MOV			EBX, [ESP + 4]
+	MOV			ECX, [ESP + 8]
 	XOR			EAX, EAX
 	MOV 		AL, [EBX]
 	MOV 		AH, [ECX]
@@ -85,7 +83,7 @@ ft_strcmp:
 	JE			.LAST_COMPARE_STRCMP
 	CMP			BYTE AL, 0X0
 	JE			.LOOP_STRCMP
-	JMP			.END_STRCMP
+	RET
 
 .LAST_COMPARE_STRCMP:
 	XOR			EAX, EAX
@@ -93,10 +91,7 @@ ft_strcmp:
 	MOV			AL, [EBX]
 	MOV			DL, [ECX]
 	SUB			EAX, EDX
-	JMP			.END_STRCMP
 
 .END_STRCMP:
-	MOV			ESP, EBP
-	POP			EBP
 	RET
 %endif ; TARGET64

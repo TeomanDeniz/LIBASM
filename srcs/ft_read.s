@@ -24,7 +24,7 @@ ft_read:
 	SYSCALL
 	CMP			RAX, 0
 	JL			.ERROR_READ
-	JMP			.END_OF_READ
+	RET
 
 .ERROR_READ:
 	PUSH		RAX
@@ -33,19 +33,19 @@ ft_read:
 	NEG			RBX
 	MOV			[RAX], RBX
 	MOV			RAX, -1
-	JMP 		.END_OF_READ
-
-.END_OF_READ:
 	RET
 %else
 [BITS 32]
 
 ft_read:
 	MOV			EAX, 0
-	SYSCALL
+	MOV			EBX, [ESP + 4]
+	MOV			ECX, [ESP + 8]
+	MOV			EDX, [ESP + 12]
+	INT			0X80
 	CMP			EAX, 0
 	JL			.ERROR_READ
-	JMP			.END_OF_READ
+	RET
 
 .ERROR_READ:
 	PUSH		EAX
@@ -54,8 +54,5 @@ ft_read:
 	NEG			EBX
 	MOV			[EAX], EBX
 	MOV			EAX, -1
-	JMP 		.END_OF_READ
-
-.END_OF_READ:
 	RET
 %endif ; TARGET64
